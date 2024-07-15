@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spotify clone</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li>
+          <a href="#logo" class="logo"><img src="images/logo.png" />Spotify</a>
+        </li>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </nav>
+    <div class="container">
+      <h2 class="songTitle">Best of NCS - No Copyright Sounds</h2>
+      <div class="songList"></div>
+    </div>
+    <div class="bottom">
+      <div class="progressField">
+        <div class="time-duration">
+          <span id="min">00</span>:
+          <span id="sec">00</span>
+        </div>
+        <input
+          type="range"
+          name="range"
+          value="0"
+          class="progressBar"
+          min="0"
+          max="100"
+        />
+      </div>
+      <div class="icons">
+        <i class="fa-solid fa-backward-step"></i>
+        <i class="fa-solid fa-circle-play" id="playBtn"></i>
+        <i class="fa-solid fa-forward-step"></i>
+      </div>
+      <div class="songGif">
+        <img src="images/playing.gif" alt="" />
+        <span class="title">Warriyo - Mortals [NCS Release]</span>
+      </div>
+    </div>
+  </body>
+</html>
