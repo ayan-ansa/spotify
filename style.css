@@ -35,7 +35,7 @@ ul li .logo {
     width: 44px;
 }
 
-.bottom {
+.song-controls {
     position: absolute;
     bottom: 0;
     padding: 13px 0;
@@ -90,7 +90,6 @@ ul li .logo {
     position: absolute;
     left: 35%;
     bottom: 70%;
-    /* margin-bottom: 4px; */
 }
 
 .songGif img {
@@ -112,6 +111,7 @@ ul li .logo {
 
 .songPlay {
     display: flex;
+    align-items: center;
     gap: 7px;
 }
 
@@ -124,13 +124,13 @@ ul li .logo {
     width: 90vw;
 }
 
-.icons i {
+.controls i {
     cursor: pointer;
     font-size: 1.3rem;
     margin-right: 10px;
 }
 
-.songGif .title {
+.songGif .song-name {
     font-size: 1rem;
     margin-left: 4px;
 }
@@ -151,7 +151,7 @@ ul li .logo {
 
     }
 
-    .songGif .title {
+    .songGif .song-name {
         font-size: 14px;
     }
 
@@ -174,7 +174,7 @@ ul li .logo {
         font-size: 12px;
     }
 
-    .songGif .title {
+    .songGif .song-name {
         font-size: 12px;
     }
 

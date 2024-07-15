@@ -6,12 +6,12 @@ const songSec = document.getElementById("sec");
 const songMin = document.getElementById("min");
 const backBtn = document.querySelector(".fa-backward-step");
 const nextBtn = document.querySelector(".fa-forward-step");
-const title = document.querySelector(".title");
+const title = document.querySelector(".song-name");
 
 let isPlay = true;
 let songIdx = 1;
-let prevClickBtn;
-const audio = new Audio("songs/1.mp3");
+const audio = new Audio(`songs/${songIdx}.mp3`);
+
 const songs = [
   { name: "Warriyo - Mortals [NCS Release]" },
   { name: "Sub Urban - Cradles [NCS Release]" },
@@ -21,6 +21,7 @@ const songs = [
   { name: "Janji & Johnning - Nostalgia [NCS Release]" },
   { name: "Ghostnaps - grow apart [NCS Release]" },
 ];
+
 songs.forEach((song, i) => {
   const songItem = document.createElement("div");
   songItem.classList.add("item");
@@ -40,30 +41,36 @@ songs.forEach((song, i) => {
   songList.append(songItem);
 });
 
-const calculateDuration = (seconds) => {
+const calculateTime = (seconds) => {
   const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  return { minutes, seconds: remainingSeconds };
-};
-
-audio.addEventListener("timeupdate", (e) => {
-  const progress = parseInt((audio.currentTime / audio.duration) * 100);
-  const Seconds = parseInt(audio.currentTime);
-  const time = calculateDuration(Seconds);
-  const sec = time.seconds < 10 ? "0" + time.seconds : time.seconds;
-  const min = time.minutes < 10 ? "0" + time.minutes : time.minutes;
+  const Seconds = seconds % 60;
+  const sec = Seconds < 10 ? "0" + Seconds : Seconds;
+  const min = minutes < 10 ? "0" + minutes : minutes;
   songSec.innerText = sec;
   songMin.innerText = min;
+};
+
+const resetSong = () => {
+  progressBar.value = 0;
+  songGif.style.opacity = 0;
+  songMin.innerText = "00";
+  songSec.innerText = "00";
+  changeSong();
+  const playIcon = document.getElementById(songIdx);
+  changeIcon(playIcon);
+  audio.play();
+};
+
+audio.addEventListener("timeupdate", () => {
+  const progress = parseInt((audio.currentTime / audio.duration) * 100);
+  const seconds = parseInt(audio.currentTime);
   progressBar.value = progress;
-  if (progressBar.value == 100) {
-    progressBar.value = 0;
-    songGif.style.opacity = 0;
-    playBtn.classList.remove("fa-circle-pause");
-    playBtn.classList.add("fa-circle-play");
-    songMin.innerText = "00";
-    songSec.innerText = "00";
+  calculateTime(seconds);
+  if (progressBar.value === "100") {
+    resetSong();
   }
 });
+
 const changeIcon = (element) => {
   if (element.classList.contains("fa-circle-pause") && isPlay) {
     element.classList.remove("fa-circle-pause");
@@ -94,7 +101,7 @@ progressBar.addEventListener("change", () => {
 
 const songPlayBtn = Array.from(document.getElementsByClassName("songPlay"));
 
-const pauseSong = () => {
+const pauseAllSongs = () => {
   songPlayBtn.forEach((btn) => {
     const prev = document.getElementById(songIdx);
     const play = btn.querySelector("i");
@@ -105,13 +112,25 @@ const pauseSong = () => {
   });
 };
 
+playBtn.addEventListener("click", (e) => {
+  const songPause = document.getElementById(songIdx);
+  handlePlay(songPause);
+  handlePlay(e.target);
+});
+
+const changeSong = () => {
+  audio.src = `songs/${songIdx}.mp3`;
+  title.innerText = songs[songIdx - 1].name;
+  pauseAllSongs();
+};
+
 songPlayBtn.forEach((btn) => {
   const play = btn.querySelector("i");
   play.addEventListener("click", (e) => {
     songIdx = e.target.id;
     audio.src = `songs/${songIdx}.mp3`;
     title.innerText = songs[songIdx - 1].name;
-    pauseSong();
+    pauseAllSongs();
     changeIcon(playBtn);
     handlePlay(e.target);
   });
@@ -123,11 +142,9 @@ backBtn.addEventListener("click", () => {
   } else {
     songIdx--;
   }
-  pauseSong();
+  changeSong();
   const songPause = document.getElementById(songIdx);
   handlePlay(songPause);
-  audio.src = `songs/${songIdx}.mp3`;
-  title.innerText = songs[songIdx - 1].name;
   isPlay = false;
   changeIcon(playBtn);
   audio.play();
@@ -139,18 +156,10 @@ nextBtn.addEventListener("click", () => {
   } else {
     songIdx++;
   }
-  pauseSong();
+  changeSong();
   const songPause = document.getElementById(songIdx);
   handlePlay(songPause);
-  audio.src = `songs/${songIdx}.mp3`;
-  title.innerText = songs[songIdx - 1].name;
   isPlay = false;
   changeIcon(playBtn);
   audio.play();
-});
-
-playBtn.addEventListener("click", (e) => {
-  const songPause = document.getElementById(songIdx);
-  handlePlay(songPause);
-  handlePlay(e.target);
 });
